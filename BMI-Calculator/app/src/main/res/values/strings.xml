@@ -1,3 +1,18 @@
 <resources>
     <string name="app_name">BMI Calculator</string>
+
+    <string name="description_text">BMI (Body Mass Index) is used to determine a person\'s weight to height index, and is calculated by dividing a person\'s weight in kilograms by their height in meters squared.</string>
+
+    <string name="height_label">Height (m)</string>
+    <string name="weight_label">Weight (kg)</string>
+
+    <string name="weight_input_hint">Enter your weight in kilograms.</string>
+    <string name="height_input_hint">Enter your height in meters.</string>
+
+    <string name="calculate_button_text">Calculate</string>
+    <string name="result_value">%1$s BMI</string>
+
+    <string name="result_description_underweight">Underweight</string>
+    <string name="result_description_normal">Normal weight</string>
+    <string name="result_description_overweight">Overweight</string>
 </resources>
