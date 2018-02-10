@@ -35,8 +35,8 @@ public class MainActivity extends AppCompatActivity
                     return;
                 }
 
-                double weight = convertToDouble(weightValue);
-                double height = convertToDouble(heightValue);
+                double weight = stringToDouble(weightValue);
+                double height = stringToDouble(heightValue);
 
                 double result = calculateBMI(weight, height);
 
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity
                     resultDescription.setText(getString(R.string.result_description_underweight));
                 }
 
-                if ((result >= 18.5) || (result <= 24.9)) {
+                if ((result >= 18.5) &&  (result <= 24.9)) {
                     resultDescription.setText(getString(R.string.result_description_normal));
                 }
 
@@ -57,11 +57,6 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    protected double calculateBMI(double weight, double height)
-    {
-        return weight / (height * height);
-    }
-
     protected String formatResult(double value)
     {
         DecimalFormat formatter = new DecimalFormat("0.00");
@@ -69,8 +64,13 @@ public class MainActivity extends AppCompatActivity
         return getString(R.string.result_value, formatter.format(value));
     }
 
-    protected double convertToDouble(TextView value)
+    protected double stringToDouble(TextView value)
     {
         return Double.valueOf(value.getText().toString());
+    }
+
+    protected double calculateBMI(double weight, double height)
+    {
+        return weight / (height * height);
     }
 }
