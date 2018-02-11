@@ -49,13 +49,13 @@ public class MainActivity extends AppCompatActivity
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view)
             {
-            if (weightValue.getText().toString().equalsIgnoreCase("") || heightValue.getText().toString().equalsIgnoreCase("")) {
-                Toast.makeText(getBaseContext(), "Values must not be empty.", Toast.LENGTH_LONG).show();
+                if (weightValue.getText().toString().equalsIgnoreCase("") || heightValue.getText().toString().equalsIgnoreCase("")) {
+                    Toast.makeText(getBaseContext(), "Values must not be empty.", Toast.LENGTH_LONG).show();
 
-                return;
-            }
+                    return;
+                }
 
-            calculate();
+                calculate();
             }
         });
     }
