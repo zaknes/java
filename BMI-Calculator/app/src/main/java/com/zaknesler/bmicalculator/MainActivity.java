@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view)
             {
-                if (weightValue.getText().toString().equalsIgnoreCase("") || heightValue.getText().toString().equalsIgnoreCase("")) {
+                if (weightValue.getText().toString().isEmpty() || heightValue.getText().toString().isEmpty()) {
                     Toast.makeText(getBaseContext(), "Values must not be empty.", Toast.LENGTH_LONG).show();
 
                     return;
