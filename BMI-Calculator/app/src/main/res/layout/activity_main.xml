@@ -4,46 +4,59 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
     tools:context="com.zaknesler.bmicalculator.MainActivity">
 
     <TextView
-        android:id="@+id/description"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
+        android:id="@+id/spinnerLabel"
+        android:layout_width="45dp"
+        android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="@string/description_text"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:gravity="center_vertical|end"
+        android:labelFor="@+id/heightValue"
+        android:text="@string/units_label"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/heightLabel"
-        android:layout_width="75dp"
+        android:layout_width="45dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:gravity="center_vertical"
+        android:gravity="center_vertical|end"
         android:labelFor="@+id/heightValue"
         android:text="@string/height_label"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/description" />
+        app:layout_constraintTop_toBottomOf="@+id/spinnerLabel" />
 
     <TextView
         android:id="@+id/weightLabel"
-        android:layout_width="wrap_content"
+        android:layout_width="45dp"
         android:layout_height="50dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:gravity="center_vertical"
+        android:gravity="center_vertical|end"
         android:labelFor="@+id/weightValue"
         android:text="@string/weight_label"
         android:textAppearance="@style/TextAppearance.AppCompat.Body2"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/heightLabel" />
+
+    <Spinner
+        android:id="@+id/spinner"
+        style="@style/Widget.AppCompat.Spinner.Underlined"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/spinnerLabel"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/heightValue"
@@ -52,14 +65,14 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:contentDescription="@string/height_input_hint"
         android:ems="10"
         android:inputType="numberDecimal"
+        android:selectAllOnFocus="false"
         android:singleLine="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toEndOf="@+id/heightLabel"
-        app:layout_constraintTop_toBottomOf="@+id/description" />
+        app:layout_constraintTop_toBottomOf="@+id/spinner" />
 
     <EditText
         android:id="@+id/weightValue"
@@ -68,7 +81,6 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:contentDescription="@string/weight_input_hint"
         android:ems="10"
         android:inputType="numberDecimal"
         android:singleLine="true"
@@ -100,6 +112,9 @@
             android:id="@+id/resultValue"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="16dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             app:layout_constraintBottom_toTopOf="@+id/resultDescription"
             app:layout_constraintEnd_toEndOf="parent"
@@ -112,6 +127,9 @@
             android:id="@+id/resultDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:layout_marginEnd="16dp"
+            android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
