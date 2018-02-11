@@ -55,7 +55,11 @@ public class MainActivity extends AppCompatActivity
                     return;
                 }
 
-                calculate();
+                try {
+                    calculate();
+                } catch (Exception exception) {
+                    Toast.makeText(getBaseContext(), "Invalid input.", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
