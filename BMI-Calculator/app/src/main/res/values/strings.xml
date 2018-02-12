@@ -6,9 +6,9 @@
         <item id="imperial">Imperial (inches / pounds)</item>
     </string-array>
 
-    <string name="units_label">Units</string>
-    <string name="height_label">Height</string>
-    <string name="weight_label">Weight</string>
+    <string name="label_units">Units</string>
+    <string name="label_height">Height</string>
+    <string name="label_weight">Weight</string>
 
     <string name="calculate_button_text">Calculate</string>
 
