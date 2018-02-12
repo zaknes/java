@@ -1,7 +1,9 @@
 package com.zaknesler.bmicalculator;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -79,6 +81,8 @@ public class MainActivity extends AppCompatActivity
 
     protected void displayResults(double value)
     {
+        hideKeyboard();
+
         resultValue.setText(getString(R.string.result_value, Double.toString(value)));
 
         if (value < 18.5) {
@@ -95,6 +99,16 @@ public class MainActivity extends AppCompatActivity
 
         if (value > 30) {
             resultDescription.setText(getString(R.string.result_description_obese));
+        }
+    }
+
+    protected void hideKeyboard()
+    {
+        try {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
+        } catch (Exception exception) {
+            exception.printStackTrace();
         }
     }
 
