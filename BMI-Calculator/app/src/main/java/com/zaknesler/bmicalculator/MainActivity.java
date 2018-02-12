@@ -1,15 +1,15 @@
 package com.zaknesler.bmicalculator;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.Toast;
 import android.widget.Spinner;
+import android.content.Context;
 import android.widget.TextView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.support.v7.app.AppCompatActivity;
+import android.view.inputmethod.InputMethodManager;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -105,8 +105,8 @@ public class MainActivity extends AppCompatActivity
     protected void hideKeyboard()
     {
         try {
-            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-            imm.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
+            InputMethodManager input = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            input.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
         } catch (Exception exception) {
             exception.printStackTrace();
         }
