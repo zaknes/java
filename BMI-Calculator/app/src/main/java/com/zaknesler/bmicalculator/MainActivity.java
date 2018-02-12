@@ -1,21 +1,17 @@
 package com.zaknesler.bmicalculator;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
+import android.widget.Toast;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.text.DecimalFormat;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.support.v7.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity
 {
-    private TextView heightValue, weightValue, button, resultValue, resultDescription;
+    private TextView heightValue, weightValue, resultValue, resultDescription;
     private Spinner spinner;
     private double finalBMI;
 
@@ -28,7 +24,6 @@ public class MainActivity extends AppCompatActivity
         spinner = findViewById(R.id.spinner);
         heightValue = findViewById(R.id.heightValue);
         weightValue = findViewById(R.id.weightValue);
-        button = findViewById(R.id.calculateButton);
         resultValue = findViewById(R.id.resultValue);
         resultDescription = findViewById(R.id.resultDescription);
 
@@ -37,7 +32,8 @@ public class MainActivity extends AppCompatActivity
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l)
+            {
                 heightValue.setText("");
                 weightValue.setText("");
             }
@@ -46,7 +42,7 @@ public class MainActivity extends AppCompatActivity
             public void onNothingSelected(AdapterView<?> adapterView) {}
         });
 
-        button.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.calculateButton).setOnClickListener(new View.OnClickListener() {
             public void onClick(View view)
             {
                 if (weightValue.getText().toString().isEmpty() || heightValue.getText().toString().isEmpty()) {
