@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">World Population</string>
+    <string name="label_year">Year</string>
+    <string name="button_calculate" >Calculate</string>
 </resources>
