@@ -1,10 +1,8 @@
 package com.zaknesler.worldpopulation;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 
 import java.math.BigDecimal;
 
@@ -18,5 +16,9 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        TextView currentPopulationValue = findViewById(R.id.value_current_population);
+
+        currentPopulationValue.setText(currentPopulation.toPlainString());
     }
 }

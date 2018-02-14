@@ -2,4 +2,6 @@
     <string name="app_name">World Population</string>
     <string name="label_year">Year</string>
     <string name="button_calculate" >Calculate</string>
+    <string name="label_current_population">Current Population</string>
+    <string name="value_current_population" />
 </resources>
