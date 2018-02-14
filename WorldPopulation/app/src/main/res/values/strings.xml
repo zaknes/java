@@ -11,6 +11,6 @@
     <string name="label_growth_rate">Growth Rate</string>
     <string name="value_growth_rate">%1$s%%</string>
 
-    <string name="result_top">Population in year %1$d</string>
+    <string name="result_top">Population In Year %1$d</string>
     <string name="result_bottom">%1$s</string>
 </resources>

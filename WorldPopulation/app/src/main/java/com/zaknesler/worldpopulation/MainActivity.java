@@ -1,11 +1,11 @@
 package com.zaknesler.worldpopulation;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.TextView;
-
+import android.widget.Toast;
 import java.text.DecimalFormat;
+import android.widget.TextView;
+import android.support.v7.app.AppCompatActivity;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -32,15 +32,19 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view)
             {
-                resultTop.setText(getResources().getString(
-                        R.string.result_top,
-                        getYear()
-                ));
+                try {
+                    resultTop.setText(getResources().getString(
+                            R.string.result_top,
+                            getYear()
+                    ));
 
-                resultBottom.setText(getResources().getString(
-                        R.string.result_bottom,
-                        formatter.format(calculateWorldPopulation(getYearDifference(getYear())))
-                ));
+                    resultBottom.setText(getResources().getString(
+                            R.string.result_bottom,
+                            formatter.format(calculateWorldPopulation(getYearDifference(getYear())))
+                    ));
+                } catch (Exception exception) {
+                    Toast.makeText(getParent(), "Invalid input", Toast.LENGTH_LONG).show();
+                }
             }
         });
 
