@@ -1,5 +1,0 @@
-- Clean up code
-- Round doubles to single decimal place before checking conditionals.
-- Fix bug that allows user to enter a single decimal point and submit - crashes app.
-- Extract button clicks to class.
-- Add imperial / metric toggle.
