@@ -6,4 +6,81 @@
     android:layout_height="match_parent"
     tools:context="com.zaknesler.temperatureconversion.MainActivity">
 
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/label_fahrenheit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:labelFor="@+id/input_fahrenheit"
+            android:text="@string/label_fahrenheit"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:layout_constraintBaseline_toBaselineOf="@+id/input_fahrenheit"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/input_fahrenheit"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:ems="10"
+            android:inputType="numberSigned|numberDecimal"
+            android:singleLine="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/label_fahrenheit"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/label_celsius"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_celsius"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:layout_constraintBaseline_toBaselineOf="@+id/input_celsius"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/input_celsius"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:inputType="numberSigned|numberDecimal"
+            android:singleLine="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/input_fahrenheit"
+            app:layout_constraintTop_toBottomOf="@+id/input_fahrenheit" />
+
+        <TextView
+            android:id="@+id/label_kelvin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/label_kelvin"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            app:layout_constraintBaseline_toBaselineOf="@+id/input_kelvin"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/input_kelvin"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:ems="10"
+            android:inputType="numberDecimal"
+            android:singleLine="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/input_celsius"
+            app:layout_constraintTop_toBottomOf="@+id/input_celsius" />
+
+    </android.support.constraint.ConstraintLayout>
 </android.support.constraint.ConstraintLayout>

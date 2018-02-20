@@ -6,6 +6,8 @@ public class Conversion
 
     private String units;
 
+    public Conversion() {}
+
     public Conversion convert(double value, String units)
     {
         this.value = value;
@@ -55,7 +57,7 @@ public class Conversion
 
     private double celsiusToFahrenheit(double celsius)
     {
-        return (celsius * (9 / 5)) + 32;
+        return ((celsius * 9) / 5) + 32;
     }
 
     private double celsiusToKelvin(double celsius)
@@ -65,12 +67,12 @@ public class Conversion
 
     private double fahrenheitToCelsius(double fahrenheit)
     {
-        return (fahrenheit - 32) * (5 / 9);
+        return ((fahrenheit - 32) * 5) / 9;
     }
 
     private double fahrenheitToKelvin(double fahrenheit)
     {
-        return fahrenheitToCelsius(fahrenheit) + 273.15;
+        return (((fahrenheit - 32) * 5) / 9) + 273.15;
     }
 
     private double kelvinToCelsius(double kelvin)
@@ -80,6 +82,6 @@ public class Conversion
 
     private double kelvinToFahrenheit(double kelvin)
     {
-        return (kelvin - 273.15) * (9 / 5) + 32;
+        return (kelvin - 273.15) * 9/5 + 32;
     }
 }
