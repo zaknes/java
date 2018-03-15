@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,10 +21,6 @@ public class MainActivity extends AppCompatActivity
 {
     protected TextView city, state;
 
-    protected OkHttpClient client = new OkHttpClient();
-
-    protected String conditionsUrl = "http://api.wunderground.com/api/7787bf91089d35a6/conditions/q/%s/%s.json";
-
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -36,16 +33,45 @@ public class MainActivity extends AppCompatActivity
 
     protected void getWeather(View view)
     {
-        try {
-            JSONObject response = get(String.format(conditionsUrl, getValue(city), getValue(state)));
+        JSONObject weather = runThread(parseInput(state), parseInput(city));
 
-            System.out.println(response);
-        } catch (Exception exception) {
-
+        if (weather == null) {
+            Toast.makeText(getApplicationContext(), "Unable to get weather.", Toast.LENGTH_LONG).show();
+            
+            return;
         }
+        
+        displayResults(weather);
     }
 
-    private String getValue(TextView view)
+    private void displayResults(JSONObject weather)
+    {
+
+    }
+
+    private JSONObject runThread(String state, String city)
+    {
+        WeatherThread weatherThread = new WeatherThread();
+
+        weatherThread.setState(state);
+        weatherThread.setCity(city);
+
+        weatherThread.start();
+
+        while (true) {
+            try {
+                weatherThread.join();
+
+                break;
+            } catch(Exception exception) {
+                exception.printStackTrace();
+            }
+        }
+
+        return weatherThread.getResponse();
+    }
+
+    private String parseInput(TextView view)
     {
         String text = view.getText().toString();
 
@@ -54,17 +80,5 @@ public class MainActivity extends AppCompatActivity
         }
 
         return text;
-    }
-
-    private JSONObject get(String url) throws IOException, JSONException
-    {
-        Request request = new Request.Builder()
-                .url(url)
-                .get()
-                .build();
-
-        Response response = client.newCall(request).execute();
-
-        return new JSONObject(response.body().string());
     }
 }
