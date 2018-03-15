@@ -37,16 +37,20 @@ public class MainActivity extends AppCompatActivity
 
         if (weather == null) {
             Toast.makeText(getApplicationContext(), "Unable to get weather.", Toast.LENGTH_LONG).show();
-            
+
             return;
         }
         
-        displayResults(weather);
+        try {
+            displayResults(weather.getJSONObject("current_observation"));
+        } catch (JSONException exception) {
+            exception.printStackTrace();
+        }
     }
 
-    private void displayResults(JSONObject weather)
+    private void displayResults(JSONObject weather) throws JSONException
     {
-
+        this.setTitle(weather.getJSONObject("display_location").getString("full"));
     }
 
     private JSONObject runThread(String state, String city)
