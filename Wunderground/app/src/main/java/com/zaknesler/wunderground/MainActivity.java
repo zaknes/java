@@ -35,23 +35,21 @@ public class MainActivity extends AppCompatActivity
     {
         JSONObject weather = runThread(parseInput(state), parseInput(city));
 
-        if (weather == null) {
-            Toast.makeText(getApplicationContext(), "Unable to get weather.", Toast.LENGTH_LONG).show();
-
-            return;
-        }
-        
         try {
-            if (weather.getJSONObject("response").has("error") && weather.getJSONObject("response").getJSONObject("error").getString("type").equalsIgnoreCase("querynotfound")) {
-                Toast.makeText(getApplicationContext(), "Results not found.", Toast.LENGTH_LONG).show();
+            if (weather == null) {
+                Toast.makeText(getApplicationContext(), "Unable to get weather.", Toast.LENGTH_LONG).show();
+
+                return;
+            }
+
+            if (weather.getJSONObject("response").has("error")) {
+                Toast.makeText(getApplicationContext(), weather.getJSONObject("response").getJSONObject("error").getString("description"), Toast.LENGTH_LONG).show();
 
                 return;
             }
 
             displayResults(weather.getJSONObject("current_observation"));
-        } catch (JSONException exception) {
-            exception.printStackTrace();
-        }
+        } catch (JSONException exception) {}
     }
 
     private void displayResults(JSONObject weather) throws JSONException
