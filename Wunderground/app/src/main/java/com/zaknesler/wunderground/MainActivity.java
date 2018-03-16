@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity
         state = findViewById(R.id.state_input);
     }
 
-    protected void getWeather(View view)
+    public void getWeather(View view)
     {
         JSONObject weather = runThread(parseInput(state), parseInput(city));
 
@@ -42,6 +42,12 @@ public class MainActivity extends AppCompatActivity
         }
         
         try {
+            if (weather.getJSONObject("response").has("error") && weather.getJSONObject("response").getJSONObject("error").getString("type").equalsIgnoreCase("querynotfound")) {
+                Toast.makeText(getApplicationContext(), "Results not found.", Toast.LENGTH_LONG).show();
+
+                return;
+            }
+
             displayResults(weather.getJSONObject("current_observation"));
         } catch (JSONException exception) {
             exception.printStackTrace();
@@ -69,6 +75,8 @@ public class MainActivity extends AppCompatActivity
                 break;
             } catch(Exception exception) {
                 exception.printStackTrace();
+
+                return null;
             }
         }
 
