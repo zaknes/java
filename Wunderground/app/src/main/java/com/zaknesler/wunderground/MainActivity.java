@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity
         city = findViewById(R.id.city_input);
         state = findViewById(R.id.state_input);
     }
-
+    
     public void handleButtonPress(View view) {
         runThread(parseInput(state), parseInput(city));
     }
