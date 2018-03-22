@@ -2,5 +2,5 @@
     <string name="app_name">Wunderground</string>
     <string name="city_label">City</string>
     <string name="state_label">State</string>
-    <string name="button_label">Get Weather</string>
+    <string name="button_label">Search</string>
 </resources>

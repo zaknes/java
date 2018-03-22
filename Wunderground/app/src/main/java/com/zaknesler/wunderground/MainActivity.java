@@ -1,25 +1,18 @@
 package com.zaknesler.wunderground;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.EditText;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-
 public class MainActivity extends AppCompatActivity
 {
-    protected TextView city, state;
+    protected EditText city, state;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -31,64 +24,66 @@ public class MainActivity extends AppCompatActivity
         state = findViewById(R.id.state_input);
     }
 
-    public void getWeather(View view)
+    public void handleButtonPress(View view) {
+        runThread(parseInput(state), parseInput(city));
+    }
+
+    private void runThread(String state, String city)
     {
-        JSONObject weather = runThread(parseInput(state), parseInput(city));
+        WeatherRequest thread = new WeatherRequest(state, city);
+
+        thread.start();
 
         try {
-            if (weather == null) {
-                Toast.makeText(getApplicationContext(), "Unable to get weather.", Toast.LENGTH_LONG).show();
+            thread.join();
 
-                return;
-            }
-
-            if (weather.getJSONObject("response").has("error")) {
-                Toast.makeText(getApplicationContext(), weather.getJSONObject("response").getJSONObject("error").getString("description"), Toast.LENGTH_LONG).show();
-
-                return;
-            }
-
-            displayResults(weather.getJSONObject("current_observation"));
+            validateResponse(thread.getResponse());
+        } catch (InterruptedException exception) {
+            displayError("Something went wrong.");
         } catch (JSONException exception) {}
     }
 
-    private void displayResults(JSONObject weather) throws JSONException
+    private void validateResponse(String response) throws JSONException
     {
-        this.setTitle(weather.getJSONObject("display_location").getString("full"));
-    }
+        JSONObject object = new JSONObject(response);
 
-    private JSONObject runThread(String state, String city)
-    {
-        WeatherThread weatherThread = new WeatherThread();
+        System.out.println(response);
 
-        weatherThread.setState(state);
-        weatherThread.setCity(city);
+        if (object.getJSONObject("response").has("error")) {
+            displayError(object.getJSONObject("response").getJSONObject("error").getString("description"));
 
-        weatherThread.start();
-
-        while (true) {
-            try {
-                weatherThread.join();
-
-                break;
-            } catch(Exception exception) {
-                exception.printStackTrace();
-
-                return null;
-            }
+            return;
         }
 
-        return weatherThread.getResponse();
+        if (object.getJSONObject("response").has("results")) {
+            displayError("Multiple locations found.");
+
+            return;
+        }
+
+        Intent weatherDisplay = new Intent(this, DisplayActivity.class);
+
+        weatherDisplay.putExtra("data", object.getJSONObject("current_observation").toString());
+
+        startActivity(weatherDisplay);
     }
 
-    private String parseInput(TextView view)
+    private String parseInput(EditText view)
     {
-        String text = view.getText().toString();
+        String text = view.getText()
+                .toString()
+                .trim()
+                .replace(' ', '_');
 
         if (text.isEmpty()) {
             return null;
         }
 
         return text;
+    }
+
+    private void displayError(String message)
+    {
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
     }
 }
