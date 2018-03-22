@@ -1,31 +1,18 @@
 package com.zaknesler.wunderground;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.EditText;
+import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-
-import okhttp3.Call;
-import okhttp3.Callback;
-import okhttp3.MediaType;
-import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.RequestBody;
-import okhttp3.Response;
-
 public class MainActivity extends AppCompatActivity
 {
-    protected TextView city, state;
-
-    protected OkHttpClient client;
-
-    protected String conditionsUrl = "http://api.wunderground.com/api/7787bf91089d35a6/conditions/q/%s/%s.json";
+    protected EditText city, state;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -35,18 +22,58 @@ public class MainActivity extends AppCompatActivity
 
         city = findViewById(R.id.city_input);
         state = findViewById(R.id.state_input);
-
-        client = new OkHttpClient();
+    }
+    
+    public void handleButtonPress(View view) {
+        runThread(parseInput(state), parseInput(city));
     }
 
-    public void getWeather(View view)
+    private void runThread(String state, String city)
     {
-        getResponse();
+        WeatherRequest thread = new WeatherRequest(state, city);
+
+        thread.start();
+
+        try {
+            thread.join();
+
+            validateResponse(thread.getResponse());
+        } catch (InterruptedException exception) {
+            displayError("Something went wrong.");
+        } catch (JSONException exception) {}
     }
 
-    private String getValue(TextView view)
+    private void validateResponse(String response) throws JSONException
     {
-        String text = view.getText().toString();
+        JSONObject object = new JSONObject(response);
+
+        System.out.println(response);
+
+        if (object.getJSONObject("response").has("error")) {
+            displayError(object.getJSONObject("response").getJSONObject("error").getString("description"));
+
+            return;
+        }
+
+        if (object.getJSONObject("response").has("results")) {
+            displayError("Multiple locations found.");
+
+            return;
+        }
+
+        Intent weatherDisplay = new Intent(this, DisplayActivity.class);
+
+        weatherDisplay.putExtra("data", object.getJSONObject("current_observation").toString());
+
+        startActivity(weatherDisplay);
+    }
+
+    private String parseInput(EditText view)
+    {
+        String text = view.getText()
+                .toString()
+                .trim()
+                .replace(' ', '_');
 
         if (text.isEmpty()) {
             return null;
@@ -55,44 +82,8 @@ public class MainActivity extends AppCompatActivity
         return text;
     }
 
-    private void handleResponse(Response response)
+    private void displayError(String message)
     {
-        try {
-            JSONObject object = new JSONObject(response.body().string());
-
-            city.setText(object.getJSONObject("current_observation").getString("temperature_string"));
-        } catch (Exception exception) {
-            Toast.makeText(getApplicationContext(), "Unable to parse response.", Toast.LENGTH_LONG).show();
-        }
-    }
-
-    private void getResponse()
-    {
-        Request request = new Request.Builder()
-                .url(String.format(conditionsUrl, getValue(state), getValue(city)))
-                .get()
-                .build();
-
-        client.newCall(request).enqueue(new Callback() {
-            @Override
-            public void onFailure(Call call, IOException e) {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(getApplicationContext(), "Unable to get weather.", Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
-
-            @Override
-            public void onResponse(Call call, final Response response) throws IOException {
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        handleResponse(response);
-                    }
-                });
-            }
-        });
+        Toast.makeText(getApplicationContext(), message, Toast.LENGTH_LONG).show();
     }
 }
