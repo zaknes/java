@@ -2,8 +2,7 @@ package com.zaknesler.wunderground;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.EditText;
-import android.widget.TextView;
+import android.widget.ImageView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -11,6 +10,8 @@ import org.json.JSONObject;
 public class DisplayActivity extends AppCompatActivity
 {
     private JSONObject data;
+
+    private ImageView image;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -21,6 +22,8 @@ public class DisplayActivity extends AppCompatActivity
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         parseData(getIntent().getStringExtra("data"));
+
+        image = findViewById(R.id.image);
     }
 
     private void parseData(String data)
@@ -34,7 +37,9 @@ public class DisplayActivity extends AppCompatActivity
     private void display(JSONObject data) throws JSONException
     {
         getSupportActionBar().setTitle(data.getJSONObject("display_location").getString("full"));
+        
+//        image.setImageResource(getResources().getIdentifier("unknown", "drawable", getPackageName()));
 
-        ((TextView) findViewById(R.id.temporary)).setText(data.toString(4));
+//        image.setImageResource(getResources().getIdentifier("sleet.gif", "drawable", getPackageName()));
     }
 }
