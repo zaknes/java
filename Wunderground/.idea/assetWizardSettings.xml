@@ -14,8 +14,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_unknown" />
-                            <entry key="sourceFile" value="E:\Other\Windows\Desktop\weather-underground-icons-master\weather-underground-icons-master\dist\icons\black\svg\unknown.svg" />
+                            <entry key="outputName" value="ic_sunny" />
+                            <entry key="sourceFile" value="F:\School\Android\School\Wunderground\app\src\main\res\drawable\icons\sunny.svg" />
                           </map>
                         </option>
                       </PersistentState>
