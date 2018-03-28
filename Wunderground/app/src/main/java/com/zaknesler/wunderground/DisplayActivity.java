@@ -37,7 +37,7 @@ public class DisplayActivity extends AppCompatActivity
     private void display(JSONObject data) throws JSONException
     {
         getSupportActionBar().setTitle(data.getJSONObject("display_location").getString("full"));
-        
+
 //        image.setImageResource(getResources().getIdentifier("unknown", "drawable", getPackageName()));
 
 //        image.setImageResource(getResources().getIdentifier("sleet.gif", "drawable", getPackageName()));
