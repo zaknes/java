@@ -2,16 +2,20 @@ package com.zaknesler.wunderground;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 public class DisplayActivity extends AppCompatActivity
 {
-    private JSONObject data;
-
     private TextView temperature, weather;
 
     private ImageView image;
@@ -23,11 +27,12 @@ public class DisplayActivity extends AppCompatActivity
         setContentView(R.layout.activity_display);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        parseData(getIntent().getStringExtra("data"));
 
         image = findViewById(R.id.image);
         temperature = findViewById(R.id.temperature_string);
         weather = findViewById(R.id.weather_string);
+
+        parseData(getIntent().getStringExtra("data"));
     }
 
     private void parseData(String data)
@@ -41,7 +46,7 @@ public class DisplayActivity extends AppCompatActivity
     {
         getSupportActionBar().setTitle(data.getJSONObject("display_location").getString("full"));
 
-        image.setImageResource(getResources().getIdentifier(data.getString("icon"), "drawable", getPackageName()));
+        image.setImageResource(getResources().getIdentifier("ic_" + data.getString("icon"), "drawable", getPackageName()));
 
         temperature.setText(getResources().getString(R.string.temperature, data.getString("temp_f")));
 
