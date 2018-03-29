@@ -47,8 +47,6 @@ public class MainActivity extends AppCompatActivity
     {
         JSONObject object = new JSONObject(response);
 
-        System.out.println(response);
-
         if (object.getJSONObject("response").has("error")) {
             displayError(object.getJSONObject("response").getJSONObject("error").getString("description"));
 
