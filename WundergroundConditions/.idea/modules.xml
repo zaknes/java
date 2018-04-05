@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Wunderground.iml" filepath="$PROJECT_DIR$/Wunderground.iml" />
+      <module fileurl="file://$PROJECT_DIR$/WundergroundConditions.iml" filepath="$PROJECT_DIR$/WundergroundConditions.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
