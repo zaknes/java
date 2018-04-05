@@ -5,4 +5,7 @@
     <string name="button_label">Search</string>
     <string name="display_image_description">Weather Image</string>
     <string name="temperature">%1$s° F</string>
+    <string name="high_label">High</string>
+    <string name="low_label">Low</string>
+    <string name="forecast">Forecast</string>
 </resources>

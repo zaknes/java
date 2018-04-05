@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity
         }
 
         Intent weatherDisplay = new Intent(this, DisplayActivity.class);
-
         weatherDisplay.putExtra("data", object.getJSONObject("forecast").getJSONObject("simpleforecast").getJSONArray("forecastday").toString());
 
         startActivity(weatherDisplay);
