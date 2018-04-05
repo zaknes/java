@@ -1,4 +1,4 @@
-package com.zaknesler.wunderground;
+package com.zaknesler.wundergroundconditions;
 
 import android.content.Intent;
 import android.os.Bundle;

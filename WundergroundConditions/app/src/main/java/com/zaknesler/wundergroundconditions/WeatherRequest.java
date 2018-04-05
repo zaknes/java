@@ -1,10 +1,9 @@
-package com.zaknesler.wunderground;
+package com.zaknesler.wundergroundconditions;
 
 import java.io.IOException;
 
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
-import okhttp3.Response;
 
 public class WeatherRequest extends Thread implements Runnable
 {

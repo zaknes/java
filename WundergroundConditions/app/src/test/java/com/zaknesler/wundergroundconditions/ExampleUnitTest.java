@@ -1,4 +1,4 @@
-package com.zaknesler.wunderground;
+package com.zaknesler.wundergroundconditions;
 
 import org.junit.Test;
 

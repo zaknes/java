@@ -1,4 +1,4 @@
-package com.zaknesler.wunderground;
+package com.zaknesler.wundergroundconditions;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
