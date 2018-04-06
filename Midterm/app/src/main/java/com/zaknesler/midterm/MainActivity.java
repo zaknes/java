@@ -1,10 +1,12 @@
 package com.zaknesler.midterm;
 
+import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +33,8 @@ public class MainActivity extends AppCompatActivity
 
     public void handleButtonPress(View view)
     {
+        hideKeyboard();
+
         String query = input.getText().toString().trim();
 
         if (query.isEmpty()) {
@@ -69,6 +73,17 @@ public class MainActivity extends AppCompatActivity
     private void displayError(String message)
     {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
+    private void hideKeyboard()
+    {
+        View view = this.getCurrentFocus();
+
+        if (view != null) {
+            InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+            inputManager.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     // From Stack Overflow.
