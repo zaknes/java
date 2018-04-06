@@ -26,6 +26,7 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.ViewHolder>
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
+        // Create an inflater based on a single item layout.
         View view = LayoutInflater.from(context).inflate(R.layout.list_item, parent, false);
 
         return new ViewHolder(view);
@@ -34,11 +35,13 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.ViewHolder>
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position)
     {
+        // Set the text of the holder values.
         try {
             JSONObject object = new JSONObject(items[position]);
 
             holder.word.setText(object.getString("item"));
             holder.type.setText(object.getString("pos"));
+            holder.weight.setText(object.getString("weight"));
         } catch (JSONException exception) {}
     }
 
@@ -48,9 +51,10 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.ViewHolder>
         return items.length;
     }
 
+    // Create a view holder to house all of the text views.
     static class ViewHolder extends RecyclerView.ViewHolder
     {
-        public TextView word, type;
+        public TextView word, type, weight;
 
         public ViewHolder(View itemView)
         {
@@ -58,6 +62,7 @@ public class WordAdapter extends RecyclerView.Adapter<WordAdapter.ViewHolder>
 
             word = itemView.findViewById(R.id.word);
             type = itemView.findViewById(R.id.type);
+            weight = itemView.findViewById(R.id.weight);
         }
     }
 }

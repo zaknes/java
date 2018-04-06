@@ -26,6 +26,7 @@ class RequestThread extends Thread implements Runnable
     @Override
     public void run()
     {
+        // Use OkHttp to send a request.
         OkHttpClient client = new OkHttpClient();
 
         Request request = new Request.Builder()

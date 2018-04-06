@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity
         input = findViewById(R.id.input);
         list = findViewById(R.id.list);
 
-        list.setAdapter(null);
+        list.setAdapter(null); // Set the adapter to null to prevent errors.
     }
 
     public void handleButtonPress(View view)
@@ -37,13 +37,14 @@ public class MainActivity extends AppCompatActivity
             return;
         }
 
+        // Instantiate the thread class and pass through the search query.
         RequestThread thread = new RequestThread(query);
-        thread.start();
+        thread.start(); // Start the thread.
 
         try {
-            thread.join();
+            thread.join(); // Wait for the thread to finish.
 
-            handleResponse(thread.getResponse());
+            handleResponse(thread.getResponse()); // Get the response variable and handle it.
         } catch (InterruptedException exception) {
             exception.printStackTrace();
         } catch (JSONException exception) {}
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity
             return;
         }
 
+        // Attach the data to the word adapter to display a list.
         WordAdapter adapter = new WordAdapter(this, toStringArray(object.getJSONArray("items")));
         list.setAdapter(adapter);
         list.setLayoutManager(new LinearLayoutManager(this));
@@ -69,6 +71,8 @@ public class MainActivity extends AppCompatActivity
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
+    // From Stack Overflow.
+    // Converts a JSONArray to a regular string array.
     private String[] toStringArray(JSONArray array)
     {
         if (array == null) {
