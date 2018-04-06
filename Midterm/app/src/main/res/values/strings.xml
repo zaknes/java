@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Word Association Search</string>
+    <string name="input_hint">Enter word...</string>
+    <string name="description">Word associations are words that resemble in some way a relationship to other words. Enter a word to search for similar or related words.</string>
+</resources>
