@@ -14,14 +14,18 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        this.makeCall();
     }
 
     private void handleResponse(String response) throws JSONException
     {
         JSONObject object = new JSONObject(response);
+
+        System.out.println(object.toString());
     }
 
-    public void handleButtonPress(View view)
+    public void makeCall()
     {
         RequestThread thread = new RequestThread();
         thread.start();

@@ -4,6 +4,7 @@ import android.support.annotation.Nullable;
 
 import java.io.IOException;
 
+import io.github.cdimascio.dotenv.Dotenv;
 import okhttp3.Authenticator;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -13,7 +14,6 @@ import okhttp3.Route;
 public class RequestThread extends Thread implements Runnable
 {
     private final String url = "https://developer-api.nest.com";
-    private final String token = "c.z8QXCG7bHYpvTe849sb6YCjc1ssvu6GXKlRPzwSGuwPIWw5MOblgP66wEvmqBp3NSUSoXkuXAgDsr6wqCsukEatXRlUQPpMMJuzRVVxbaodyc494FbaRF0FO7EFynqGfeqqKPFkPrNpSj1D8";
 
     private volatile String response;
 
@@ -25,6 +25,8 @@ public class RequestThread extends Thread implements Runnable
     @Override
     public void run()
     {
+        final Dotenv env = Dotenv.configure().directory("/assets").filename("env").load();
+
         // Use OkHttp to send a request.
         OkHttpClient client = new OkHttpClient().newBuilder()
                 .authenticator(new Authenticator() {
@@ -33,7 +35,7 @@ public class RequestThread extends Thread implements Runnable
                     public Request authenticate(Route route, Response response) throws IOException
                     {
                         return response.request().newBuilder()
-                                .addHeader("Authorization", "Bearer " + token)
+                                .addHeader("Authorization", "Bearer " + env.get("auth_token"))
                                 .build();
                     }
                 })
@@ -45,7 +47,7 @@ public class RequestThread extends Thread implements Runnable
                 .url(this.url)
                 .get()
                 .addHeader("Content-Type", "application/json; charset=UTF-8")
-                .addHeader("Authorization", "Bearer " + token)
+                .addHeader("Authorization", "Bearer " + env.get("auth_token"))
                 .build();
 
         try {
