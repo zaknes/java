@@ -13,7 +13,7 @@ import okhttp3.Route;
 
 public class RequestThread extends Thread implements Runnable
 {
-    private final String url = "https://developer-api.nest.com";
+    private final String url = "https://developer-api.nest.com/devices/smoke_co_alarms/";
 
     private volatile String response;
 
@@ -44,7 +44,7 @@ public class RequestThread extends Thread implements Runnable
                 .build();
 
         Request request = new Request.Builder()
-                .url(this.url)
+                .url(this.url + env.get("device_id"))
                 .get()
                 .addHeader("Content-Type", "application/json; charset=UTF-8")
                 .addHeader("Authorization", "Bearer " + env.get("auth_token"))

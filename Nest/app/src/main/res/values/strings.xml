@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Nest</string>
+    <string name="smoke_label">Smoke Alarm</string>
+    <string name="co_label">Carbon Monoxide</string>
+    <string name="battery_label">Battery Health</string>
+    <string name="refresh">Refresh</string>
 </resources>
