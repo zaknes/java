@@ -13,7 +13,7 @@ public class BarcodeGraphicTracker extends Tracker<Barcode>
     private GraphicOverlay<BarcodeGraphic> overlay;
     private BarcodeGraphic graphic;
 
-    private BarcodeUpdateListener mBarcodeUpdateListener;
+    private BarcodeUpdateListener barcodeUpdateListener;
 
     public interface BarcodeUpdateListener
     {
@@ -24,13 +24,14 @@ public class BarcodeGraphicTracker extends Tracker<Barcode>
     BarcodeGraphicTracker(GraphicOverlay<BarcodeGraphic> overlay, BarcodeGraphic graphic, Context context)
     {
         this.overlay = overlay;
+
         this.graphic = graphic;
 
         if (!(context instanceof BarcodeUpdateListener)) {
             throw new RuntimeException("Hosting activity must implement BarcodeUpdateListener");
         }
 
-        this.mBarcodeUpdateListener = (BarcodeUpdateListener) context;
+        this.barcodeUpdateListener = (BarcodeUpdateListener) context;
     }
 
     @Override
@@ -38,7 +39,7 @@ public class BarcodeGraphicTracker extends Tracker<Barcode>
     {
         graphic.setId(id);
 
-        mBarcodeUpdateListener.onBarcodeDetected(item);
+        barcodeUpdateListener.onBarcodeDetected(item);
     }
 
     @Override
@@ -58,6 +59,10 @@ public class BarcodeGraphicTracker extends Tracker<Barcode>
     @Override
     public void onDone()
     {
+        if (graphic == null) {
+            return;
+        }
+
         overlay.remove(graphic);
     }
 }

@@ -1,6 +1,7 @@
 package com.zaknesler.barcodescanner.graphics;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.android.gms.vision.MultiProcessor;
 import com.google.android.gms.vision.Tracker;
@@ -15,14 +16,14 @@ public class BarcodeTrackerFactory implements MultiProcessor.Factory<Barcode>
     public BarcodeTrackerFactory(GraphicOverlay<BarcodeGraphic> graphicOverlay, Context context)
     {
         this.graphicOverlay = graphicOverlay;
+
         this.context = context;
     }
 
     @Override
     public Tracker<Barcode> create(Barcode barcode)
     {
-        BarcodeGraphic graphic = new BarcodeGraphic(graphicOverlay);
-        return new BarcodeGraphicTracker(graphicOverlay, graphic, context);
+        return new BarcodeGraphicTracker(graphicOverlay, new BarcodeGraphic(graphicOverlay), context);
     }
 
 }

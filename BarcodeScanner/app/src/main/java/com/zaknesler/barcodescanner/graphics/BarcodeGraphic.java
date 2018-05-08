@@ -8,13 +8,9 @@ import android.graphics.RectF;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.zaknesler.barcodescanner.camera.GraphicOverlay;
 
-/**
- * Graphic instance for rendering barcode position, size, and ID within an associated graphic
- * overlay view.
- */
-public class BarcodeGraphic extends GraphicOverlay.Graphic {
-
-    private int mId;
+public class BarcodeGraphic extends GraphicOverlay.Graphic
+{
+    private int id;
 
     private static final int COLOR_CHOICES[] = {
             Color.BLUE,
@@ -22,55 +18,64 @@ public class BarcodeGraphic extends GraphicOverlay.Graphic {
             Color.CYAN
     };
 
-    private static int mCurrentColorIndex = 0;
+    private static int currentColor = 0;
 
-    private Paint mRectPaint;
+    private Paint paint;
 
-    private volatile Barcode mBarcode;
+    private volatile Barcode barcode;
 
-    BarcodeGraphic(GraphicOverlay overlay) {
+    BarcodeGraphic(GraphicOverlay overlay)
+    {
         super(overlay);
 
-        mCurrentColorIndex = (mCurrentColorIndex + 1) % COLOR_CHOICES.length;
-        final int selectedColor = COLOR_CHOICES[mCurrentColorIndex];
+        currentColor = (currentColor + 1) % COLOR_CHOICES.length;
+        final int selectedColor = COLOR_CHOICES[currentColor];
 
-        mRectPaint = new Paint();
-        mRectPaint.setColor(selectedColor);
-        mRectPaint.setStyle(Paint.Style.FILL_AND_STROKE);
-        mRectPaint.setStrokeCap(Paint.Cap.ROUND);
-        mRectPaint.setStrokeWidth(5.0f);
+        paint = new Paint();
+        paint.setColor(selectedColor);
+        paint.setStyle(Paint.Style.STROKE);
+        paint.setStrokeCap(Paint.Cap.ROUND);
+        paint.setStrokeWidth(5.0f);
     }
 
-    public int getId() {
-        return mId;
+    public int getId()
+    {
+        return id;
     }
 
-    public void setId(int id) {
-        this.mId = id;
+    public void setId(int id)
+    {
+        this.id = id;
     }
 
-    public Barcode getBarcode() {
-        return mBarcode;
+    public Barcode getBarcode()
+    {
+        return barcode;
     }
 
-    void updateItem(Barcode barcode) {
-        mBarcode = barcode;
+    void updateItem(Barcode barcode)
+    {
+        this.barcode = barcode;
+
         postInvalidate();
     }
 
     @Override
-    public void draw(Canvas canvas) {
-        Barcode barcode = mBarcode;
-
+    public void draw(Canvas canvas)
+    {
         if (barcode == null) {
             return;
         }
 
+        float padding = 25.0f;
+
         RectF rect = new RectF(barcode.getBoundingBox());
-        rect.left = translateX(rect.left - 25);
-        rect.top = translateY(rect.top - 25);
-        rect.right = translateX(rect.right + 25);
-        rect.bottom = translateY(rect.bottom + 25);
-        canvas.drawRoundRect(rect, 5.0f, 5.0f, mRectPaint);
+
+        rect.left = translateX(rect.left - padding);
+        rect.top = translateY(rect.top - padding);
+        rect.right = translateX(rect.right + padding);
+        rect.bottom = translateY(rect.bottom + padding);
+
+        canvas.drawRoundRect(rect, 5.0f, 5.0f, paint);
     }
 }

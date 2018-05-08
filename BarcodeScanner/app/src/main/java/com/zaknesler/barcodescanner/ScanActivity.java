@@ -2,6 +2,7 @@ package com.zaknesler.barcodescanner;
 
 import android.Manifest;
 import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,6 +14,7 @@ import com.google.android.gms.vision.CameraSource;
 import com.google.android.gms.vision.MultiProcessor;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.zaknesler.barcodescanner.camera.CameraPreview;
 import com.zaknesler.barcodescanner.graphics.BarcodeGraphic;
 import com.zaknesler.barcodescanner.graphics.BarcodeGraphicTracker;
 import com.zaknesler.barcodescanner.graphics.BarcodeTrackerFactory;
@@ -22,7 +24,9 @@ import java.io.IOException;
 
 public class ScanActivity extends AppCompatActivity implements BarcodeGraphicTracker.BarcodeUpdateListener
 {
-    private SurfaceView cameraView;
+    private static final int CAMERA_REQUEST_CODE = 10;
+
+    private CameraPreview cameraView;
 
     private CameraSource cameraSource;
     private GraphicOverlay<BarcodeGraphic> graphicOverlay;
@@ -37,7 +41,29 @@ public class ScanActivity extends AppCompatActivity implements BarcodeGraphicTra
 
         cameraView = findViewById(R.id.camera_view);
 
+        if (hasCameraPermission()) {
+            requestCameraPermission();
+        }
+
         initializeScanner();
+    }
+
+    private void requestCameraPermission()
+    {
+//        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.CAMERA)) {
+//            return;
+//        }
+
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_REQUEST_CODE);
+    }
+
+    private boolean hasCameraPermission()
+    {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
+            return false;
+        }
+
+        return true;
     }
 
     private void initializeScanner()
@@ -46,7 +72,7 @@ public class ScanActivity extends AppCompatActivity implements BarcodeGraphicTra
                 .setBarcodeFormats(Barcode.ALL_FORMATS)
                 .build();
 
-        BarcodeTrackerFactory trackerFactory = new BarcodeTrackerFactory(graphicOverlay, getApplicationContext());
+        BarcodeTrackerFactory trackerFactory = new BarcodeTrackerFactory(graphicOverlay, this);
 
         detector.setProcessor(new MultiProcessor.Builder<>(trackerFactory).build());
 
@@ -54,43 +80,24 @@ public class ScanActivity extends AppCompatActivity implements BarcodeGraphicTra
             Log.e(getString(R.string.app_name), "Could not start detector.");
         }
 
-        cameraSource = new CameraSource.Builder(getApplicationContext(), detector)
+        cameraSource = new CameraSource.Builder(this, detector)
                 .setFacing(CameraSource.CAMERA_FACING_BACK)
                 .setRequestedFps(30.0f)
                 .setAutoFocusEnabled(true)
                 .setRequestedPreviewSize(1920, 1080)
                 .build();
 
-        cameraView.getHolder().addCallback(new SurfaceHolder.Callback() {
-            @Override
-            public void surfaceCreated(SurfaceHolder holder)
-            {
-                startCameraSource();
-            }
-
-            @Override
-            public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {}
-
-            @Override
-            public void surfaceDestroyed(SurfaceHolder holder)
-            {
-                cameraSource.stop();
-            }
-        });
-
     }
 
-    private void startCameraSource()
+    private void startCameraSource() throws SecurityException
     {
-        if (ContextCompat.checkSelfPermission(ScanActivity.this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_DENIED) {
-            Log.e(getString(R.string.app_name), "Camera permission not granted.");
-            return;
-        }
-
         try {
-            cameraSource.start(cameraView.getHolder());
+            cameraView.start(cameraSource, graphicOverlay);
         } catch (IOException exception) {
             Log.e(getString(R.string.app_name), exception.getMessage());
+
+            cameraSource.release();
+            cameraSource = null;
         }
     }
 
@@ -99,7 +106,7 @@ public class ScanActivity extends AppCompatActivity implements BarcodeGraphicTra
     {
         super.onResume();
 
-        startCameraSource();
+        initializeScanner();
     }
 
     @Override
