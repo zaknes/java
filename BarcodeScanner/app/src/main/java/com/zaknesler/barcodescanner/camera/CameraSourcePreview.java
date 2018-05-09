@@ -12,22 +12,23 @@ import android.view.ViewGroup;
 
 import com.google.android.gms.common.images.Size;
 import com.google.android.gms.vision.CameraSource;
+import com.zaknesler.barcodescanner.graphics.GraphicOverlay;
 
 import java.io.IOException;
 
-public class CameraPreview extends ViewGroup
+public class CameraSourcePreview extends ViewGroup
 {
     private static final String TAG = "CameraSourcePreview";
 
     private Context context;
+    private GraphicOverlay overlay;
     private SurfaceView surfaceView;
     private CameraSource cameraSource;
-    private GraphicOverlay graphicOverlay;
 
     private boolean startRequested;
     private boolean surfaceAvailable;
 
-    public CameraPreview(Context context, AttributeSet attrs)
+    public CameraSourcePreview(Context context, AttributeSet attrs)
     {
         super(context, attrs);
 
@@ -43,70 +44,70 @@ public class CameraPreview extends ViewGroup
     }
 
     @RequiresPermission(Manifest.permission.CAMERA)
-    public void start(CameraSource cameraSource) throws IOException, SecurityException
-    {
+    public void start(CameraSource cameraSource) throws IOException, SecurityException {
         if (cameraSource == null) {
             stop();
         }
 
         this.cameraSource = cameraSource;
 
-        if (cameraSource != null) {
-            startRequested = true;
+        this.startRequested = true;
 
-            startIfReady();
-        }
+        startIfReady();
     }
 
     @RequiresPermission(Manifest.permission.CAMERA)
     public void start(CameraSource cameraSource, GraphicOverlay overlay) throws IOException, SecurityException
     {
-        graphicOverlay = overlay;
+        this.overlay = overlay;
 
         start(cameraSource);
     }
 
     public void stop()
     {
-        if (cameraSource != null) {
-            cameraSource.stop();
+        if (cameraSource == null) {
+            return;
         }
+
+        cameraSource.stop();
     }
 
-    public void release()
-    {
-        if (cameraSource != null) {
-            cameraSource.release();
-
-            cameraSource = null;
+    public void release() {
+        if (cameraSource == null) {
+            return;
         }
+
+        cameraSource.release();
+        cameraSource = null;
     }
 
     @RequiresPermission(Manifest.permission.CAMERA)
     private void startIfReady() throws IOException, SecurityException
     {
-        if (startRequested && surfaceAvailable) {
-            cameraSource.start(surfaceView.getHolder());
-
-            if (graphicOverlay != null) {
-                Size size = cameraSource.getPreviewSize();
-
-                int min = Math.min(size.getWidth(), size.getHeight());
-                int max = Math.max(size.getWidth(), size.getHeight());
-
-                if (isPortraitMode()) {
-                    // Swap width and height sizes when in portrait, since it will be rotated by
-                    // 90 degrees
-                    graphicOverlay.setCameraInfo(min, max, cameraSource.getCameraFacing());
-                } else {
-                    graphicOverlay.setCameraInfo(max, min, cameraSource.getCameraFacing());
-                }
-
-                graphicOverlay.clear();
-            }
-
-            startRequested = false;
+        if (!startRequested || !surfaceAvailable) {
+            return;
         }
+
+        if (overlay == null) {
+            return;
+        }
+
+        cameraSource.start(surfaceView.getHolder());
+
+        Size size = cameraSource.getPreviewSize();
+
+        int min = Math.min(size.getWidth(), size.getHeight());
+        int max = Math.max(size.getWidth(), size.getHeight());
+
+        if (isPortraitMode()) {
+            overlay.setCameraInfo(min, max, cameraSource.getCameraFacing());
+        } else {
+            overlay.setCameraInfo(max, min, cameraSource.getCameraFacing());
+        }
+
+        overlay.clear();
+        startRequested = false;
     }
 
     private class SurfaceCallback implements SurfaceHolder.Callback
@@ -138,16 +139,18 @@ public class CameraPreview extends ViewGroup
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom)
     {
+        if (cameraSource == null) {
+            return;
+        }
+
         int width = 320;
         int height = 240;
 
-        if (cameraSource != null) {
-            Size size = cameraSource.getPreviewSize();
+        Size size = cameraSource.getPreviewSize();
 
-            if (size != null) {
-                width = size.getWidth();
-                height = size.getHeight();
-            }
+        if (size != null) {
+            width = size.getWidth();
+            height = size.getHeight();
         }
 
         if (isPortraitMode()) {
@@ -160,14 +163,13 @@ public class CameraPreview extends ViewGroup
         final int layoutWidth = right - left;
         final int layoutHeight = bottom - top;
 
-        // Computes height and width for potentially doing fit width.
         int childWidth = layoutWidth;
-        int childHeight = (int)(((float) layoutWidth / (float) width) * height);
+        int childHeight = (layoutWidth / width) * height;
 
-        // If height is too tall using fit width, does fit height instead.
         if (childHeight > layoutHeight) {
             childHeight = layoutHeight;
-            childWidth = (int)(((float) layoutHeight / (float) height) * width);
+
+            childWidth = (layoutHeight / height) * width;
         }
 
         for (int i = 0; i < getChildCount(); ++i) {
@@ -194,8 +196,6 @@ public class CameraPreview extends ViewGroup
         if (orientation == Configuration.ORIENTATION_PORTRAIT) {
             return true;
         }
-
-        Log.d(TAG, "isPortraitMode returning false by default");
 
         return false;
     }

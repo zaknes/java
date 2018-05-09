@@ -6,14 +6,14 @@ import android.support.annotation.UiThread;
 import com.google.android.gms.vision.Detector;
 import com.google.android.gms.vision.Tracker;
 import com.google.android.gms.vision.barcode.Barcode;
-import com.zaknesler.barcodescanner.camera.GraphicOverlay;
 
 public class BarcodeGraphicTracker extends Tracker<Barcode>
 {
-    private GraphicOverlay<BarcodeGraphic> overlay;
+    private GraphicOverlay<BarcodeGraphic> graphicOverlay;
     private BarcodeGraphic graphic;
 
     private BarcodeUpdateListener barcodeUpdateListener;
+
 
     public interface BarcodeUpdateListener
     {
@@ -21,16 +21,10 @@ public class BarcodeGraphicTracker extends Tracker<Barcode>
         void onBarcodeDetected(Barcode barcode);
     }
 
-    BarcodeGraphicTracker(GraphicOverlay<BarcodeGraphic> overlay, BarcodeGraphic graphic, Context context)
+    BarcodeGraphicTracker(GraphicOverlay<BarcodeGraphic> graphicOverlay, BarcodeGraphic graphic, Context context)
     {
-        this.overlay = overlay;
-
+        this.graphicOverlay = graphicOverlay;
         this.graphic = graphic;
-
-        if (!(context instanceof BarcodeUpdateListener)) {
-            throw new RuntimeException("Hosting activity must implement BarcodeUpdateListener");
-        }
-
         this.barcodeUpdateListener = (BarcodeUpdateListener) context;
     }
 
@@ -38,31 +32,25 @@ public class BarcodeGraphicTracker extends Tracker<Barcode>
     public void onNewItem(int id, Barcode item)
     {
         graphic.setId(id);
-
         barcodeUpdateListener.onBarcodeDetected(item);
     }
 
     @Override
     public void onUpdate(Detector.Detections<Barcode> detectionResults, Barcode item)
     {
-        overlay.add(graphic);
-
+        graphicOverlay.add(graphic);
         graphic.updateItem(item);
     }
 
     @Override
     public void onMissing(Detector.Detections<Barcode> detectionResults)
     {
-        overlay.remove(graphic);
+        graphicOverlay.remove(graphic);
     }
 
     @Override
     public void onDone()
     {
-        if (graphic == null) {
-            return;
-        }
-
-        overlay.remove(graphic);
+        graphicOverlay.remove(graphic);
     }
 }

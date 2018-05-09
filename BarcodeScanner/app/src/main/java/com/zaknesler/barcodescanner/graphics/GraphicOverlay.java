@@ -1,4 +1,4 @@
-package com.zaknesler.barcodescanner.camera;
+package com.zaknesler.barcodescanner.graphics;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -14,15 +14,16 @@ import java.util.Vector;
 
 public class GraphicOverlay<T extends GraphicOverlay.Graphic> extends View
 {
-    private final Object lock = new Object();
+    private final Object object = new Object();
+    private Set<T> graphics = new HashSet<>();
 
     private int previewWidth;
     private int previewHeight;
+
     private float widthScaleFactor = 1.0f;
     private float heightScaleFactor = 1.0f;
-    private int facing = CameraSource.CAMERA_FACING_BACK;
 
-    private Set<T> graphics = new HashSet<>();
+    private int facing = CameraSource.CAMERA_FACING_BACK;
 
     public static abstract class Graphic
     {
@@ -72,7 +73,7 @@ public class GraphicOverlay<T extends GraphicOverlay.Graphic> extends View
 
     public void clear()
     {
-        synchronized (lock) {
+        synchronized (object) {
             graphics.clear();
         }
 
@@ -81,7 +82,7 @@ public class GraphicOverlay<T extends GraphicOverlay.Graphic> extends View
 
     public void add(T graphic)
     {
-        synchronized (lock) {
+        synchronized (object) {
             graphics.add(graphic);
         }
 
@@ -90,7 +91,7 @@ public class GraphicOverlay<T extends GraphicOverlay.Graphic> extends View
 
     public void remove(T graphic)
     {
-        synchronized (lock) {
+        synchronized (object) {
             graphics.remove(graphic);
         }
 
@@ -99,7 +100,7 @@ public class GraphicOverlay<T extends GraphicOverlay.Graphic> extends View
 
     public List<T> getGraphics()
     {
-        synchronized (lock) {
+        synchronized (object) {
             return new Vector(graphics);
         }
     }
@@ -109,6 +110,7 @@ public class GraphicOverlay<T extends GraphicOverlay.Graphic> extends View
         return widthScaleFactor;
     }
 
+
     public float getHeightScaleFactor()
     {
         return heightScaleFactor;
@@ -116,7 +118,7 @@ public class GraphicOverlay<T extends GraphicOverlay.Graphic> extends View
 
     public void setCameraInfo(int previewWidth, int previewHeight, int facing)
     {
-        synchronized (lock) {
+        synchronized (object) {
             this.previewWidth = previewWidth;
             this.previewHeight = previewHeight;
             this.facing = facing;
@@ -130,7 +132,7 @@ public class GraphicOverlay<T extends GraphicOverlay.Graphic> extends View
     {
         super.onDraw(canvas);
 
-        synchronized (lock) {
+        synchronized (object) {
             if ((previewWidth != 0) && (previewHeight != 0)) {
                 widthScaleFactor = (float) canvas.getWidth() / (float) previewWidth;
                 heightScaleFactor = (float) canvas.getHeight() / (float) previewHeight;
