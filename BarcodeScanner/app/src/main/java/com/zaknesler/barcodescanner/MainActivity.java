@@ -3,6 +3,7 @@ package com.zaknesler.barcodescanner;
 import android.Manifest;
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -102,7 +103,7 @@ public final class MainActivity extends Activity implements BarcodeGraphicTracke
 
         cameraSource = new CameraSource.Builder(getApplicationContext(), barcodeDetector)
                 .setFacing(CameraSource.CAMERA_FACING_BACK)
-                .setRequestedPreviewSize(1920, 1080)
+                .setRequestedPreviewSize(1600, 1024)
                 .setAutoFocusEnabled(true)
                 .setRequestedFps(30.0f)
                 .build();
@@ -215,11 +216,19 @@ public final class MainActivity extends Activity implements BarcodeGraphicTracke
             return false;
         }
 
-        Log.i(TAG, best.displayValue);
-
-        // TODO: Do something with best barcode.
+        launchSearchActivity(best);
 
         return true;
+    }
+
+    private void launchSearchActivity(Barcode barcode)
+    {
+        Intent intent = new Intent(this, SearchActivity.class)
+                .putExtra("barcode", barcode.displayValue);
+
+        cameraPreview.release();
+        
+        startActivity(intent);
     }
 
     private class CaptureGestureListener extends GestureDetector.SimpleOnGestureListener
