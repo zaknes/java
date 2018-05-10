@@ -79,7 +79,7 @@ public final class MainActivity extends Activity implements BarcodeGraphicTracke
             }
         };
 
-        findViewById(R.id.topLayout).setOnClickListener(listener);
+        cameraPreview.setOnClickListener(listener);
 
         Snackbar.make(graphicOverlay, R.string.permission_camera_rationale,
                 Snackbar.LENGTH_INDEFINITE)
@@ -114,6 +114,9 @@ public final class MainActivity extends Activity implements BarcodeGraphicTracke
     {
         super.onResume();
 
+        cameraSource = null;
+
+        createCameraSource();
         startCameraSource();
     }
 
@@ -122,9 +125,12 @@ public final class MainActivity extends Activity implements BarcodeGraphicTracke
     {
         super.onPause();
 
-        if (cameraPreview != null) {
-            cameraPreview.stop();
+        if (cameraPreview == null) {
+            return;
         }
+
+        cameraPreview.release();
+        cameraSource = null;
     }
 
 
@@ -133,9 +139,12 @@ public final class MainActivity extends Activity implements BarcodeGraphicTracke
     {
         super.onDestroy();
 
-        if (cameraPreview != null) {
-            cameraPreview.release();
+        if (cameraPreview == null) {
+            return;
         }
+
+        cameraPreview.release();
+        cameraSource = null;
     }
 
     @Override
@@ -190,7 +199,7 @@ public final class MainActivity extends Activity implements BarcodeGraphicTracke
 
         Barcode best = null;
 
-        float bestDistance = 50.0f;
+        float bestDistance = Float.MAX_VALUE;
 
         for (BarcodeGraphic graphic : graphicOverlay.getGraphics()) {
             Barcode barcode = graphic.getBarcode();
