@@ -1,4 +1,4 @@
-## Java II - Android Projects
+# Java II - Android Development
 
 These are the projects and assignments for my Java II class of my senior year in high school. Java II is where I first learned Android development.
 
