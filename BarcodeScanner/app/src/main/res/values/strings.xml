@@ -1,3 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">Barcode Scanner</string>
+    <string name="ok">OK</string>
+    <string name="barcode_scanned">Barcode Scanned</string>
+    <string name="edit_barcode">Edit Barcode</string>
+    <string name="walmart_button_label">Search Walmart</string>
+    <string name="permission_camera_rationale">Access to the camera is needed for detection</string>
 </resources>
