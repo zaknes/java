@@ -1,4 +1,4 @@
-package com.zaknesler.barcodescanner;
+package com.zaknesler.barcodescanner.display;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -8,15 +8,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.zaknesler.barcodescanner.R;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class ListAdapter extends RecyclerView.Adapter<ListAdapter.ViewHolder>
+public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.ViewHolder>
 {
     private Context context;
     private String[] items;
 
-    public ListAdapter(Context context, String[] items)
+    public SearchListAdapter(Context context, String[] items)
     {
         this.context = context;
         this.items = items;

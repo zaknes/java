@@ -1,6 +1,4 @@
-package com.zaknesler.barcodescanner;
-
-import android.support.annotation.Nullable;
+package com.zaknesler.barcodescanner.thread;
 
 import java.io.IOException;
 

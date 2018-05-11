@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.view.ActionMode;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.View;
@@ -223,7 +224,7 @@ public final class MainActivity extends Activity implements BarcodeGraphicTracke
 
     private void launchSearchActivity(Barcode barcode)
     {
-        Intent intent = new Intent(this, SearchActivity.class)
+        Intent intent = new Intent(this, DisplayBarcodeActivity.class)
                 .putExtra("barcode", barcode.displayValue);
 
         cameraPreview.release();

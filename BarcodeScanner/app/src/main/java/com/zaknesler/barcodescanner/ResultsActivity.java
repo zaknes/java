@@ -5,33 +5,57 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
+
+import com.zaknesler.barcodescanner.display.SearchListAdapter;
+import com.zaknesler.barcodescanner.thread.RequestThread;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class SearchActivity extends AppCompatActivity
+import io.github.cdimascio.dotenv.Dotenv;
+
+public class ResultsActivity extends AppCompatActivity
 {
     private static String barcode;
 
     private RecyclerView list;
 
+    private static Dotenv env;
+
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_search);
+        setContentView(R.layout.activity_results);
 
-        list = findViewById(R.id.list);
-        list.setAdapter(null);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Search Results");
 
         barcode = getIntent().getStringExtra("barcode");
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle(barcode);
+        list = findViewById(R.id.list);
+        list.setAdapter(new SearchListAdapter(this, null));
 
-        walmartRequest();
+        env = Dotenv.configure().directory("/assets").filename("env").load();
+
+        if (getIntent().getStringExtra("action").equals("walmart")) {
+            walmartRequest();
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void handleResponse(String response) throws JSONException
@@ -48,15 +72,16 @@ public class SearchActivity extends AppCompatActivity
             return;
         }
 
-        ListAdapter adapter = new ListAdapter(this, toStringArray(object.getJSONArray("items")));
+        SearchListAdapter adapter = new SearchListAdapter(this, toStringArray(object.getJSONArray("items")));
         list.setAdapter(adapter);
         list.setLayoutManager(new LinearLayoutManager(this));
     }
 
     private void walmartRequest()
     {
+
         try {
-            handleResponse(runThread("http://api.walmartlabs.com/v1/items?apiKey=kr2f3cr5zuraxm9d5vpxy2f5&upc=" + barcode));
+            handleResponse(runThread("http://api.walmartlabs.com/v1/items?apiKey=" + env.get("walmart_api_key") + "&upc=" + barcode));
         } catch (JSONException exception) {}
     }
 
