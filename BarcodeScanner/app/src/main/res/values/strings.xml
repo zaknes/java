@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Barcode Scanner</string>
+    <string name="app_name">Scanner</string>
     <string name="ok">OK</string>
     <string name="barcode_scanned">Barcode Scanned</string>
     <string name="edit_barcode">Edit Barcode</string>
