@@ -42,6 +42,6 @@ This assignment interacts with Google's [Nest API](https://developers.nest.com/)
 This is, by far, the most complicated Android project I have worked on. Using Google's [Mobile Vision](https://developers.google.com/vision/) API, it uses the phone's camera to track barcodes. When you click a barcode, you get the option to edit it and search Walmart for the barcode, to return any items matching the UPC. I plan on adding several other search options in the future, but I am very excited that I have gotten it to work the way I want it to, even if it is pretty basic in terms of functionality.
 
 
-#### Performance Task 1
+#### Lyrics Performance Task
 
 Performance tasks apply to both Java I and Java II, so they tend to be something most students are able to create. This application simply takes the last word out of a string of lyrics, and prints it to the beginning of a ScrollView.
