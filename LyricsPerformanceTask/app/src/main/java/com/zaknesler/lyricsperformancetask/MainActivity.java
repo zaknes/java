@@ -7,9 +7,12 @@ import android.widget.TextView;
 
 public class MainActivity extends AppCompatActivity
 {
-    public TextView output;
+    public TextView display;
 
-    public String current = "";
+    public String lyrics = "Row row row your boat " +
+            "\nGently down the stream " +
+            "\nMerrily merrily merrily merrily " +
+            "\nLife is but a dream";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -17,7 +20,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        output = findViewById(R.id.output);
+        display = findViewById(R.id.display);
 
         reset();
 
@@ -31,24 +34,24 @@ public class MainActivity extends AppCompatActivity
 
     private void reset()
     {
-        current = "Row row row your boat " +
-                "\n\nGently down the stream " +
-                "\n\nMerrily merrily merrily merrily " +
-                "\n\nLife is but a dream";
-
-        output.setText(current);
+        display.setText(lyrics);
     }
 
     public void onButtonClick(View view)
     {
-        if (current.split("\\w+").length == 0) {
-            return;
+        String current = lyrics;
+        String output = current + "\n\n";
+
+        int index = lyrics.lastIndexOf(' ');
+
+        while (index != -1) {
+            output += lyrics.substring(0, index) + "\n\n";
+
+            current = current.substring(0, index);
+
+            index = current.lastIndexOf(' ');
         }
 
-        String next = current.substring(0, current.lastIndexOf(' ', current.length()));
-
-        output.setText(next + "\n\n\n\n" + output.getText().toString());
-
-        current = next;
+        display.setText(output);
     }
 }

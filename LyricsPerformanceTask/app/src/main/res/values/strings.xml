@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">Lyrics Performance Task</string>
-    <string name="button_text">Remove Word</string>
+    <string name="button_text">Run</string>
     <string name="reset">Reset</string>
 </resources>
