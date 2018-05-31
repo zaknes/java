@@ -72,6 +72,12 @@ public class ResultsActivity extends AppCompatActivity
             return;
         }
 
+        if (object.getInt("numItems") == 0) {
+            Toast.makeText(this, object.getString("message"), Toast.LENGTH_LONG).show();
+
+            return;
+        }
+
         SearchListAdapter adapter = new SearchListAdapter(this, toStringArray(object.getJSONArray("items")));
         list.setAdapter(adapter);
         list.setLayoutManager(new LinearLayoutManager(this));
@@ -81,7 +87,7 @@ public class ResultsActivity extends AppCompatActivity
     {
 
         try {
-            handleResponse(runThread("http://api.walmartlabs.com/v1/items?apiKey=" + env.get("walmart_api_key") + "&upc=" + barcode));
+            handleResponse(runThread("http://api.walmartlabs.com/v1/search?apiKey=" + env.get("walmart_api_key") + "&query=" + barcode));
         } catch (JSONException exception) {}
     }
 

@@ -13,6 +13,8 @@ import com.zaknesler.barcodescanner.R;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
+
 public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.ViewHolder>
 {
     private Context context;
@@ -41,7 +43,9 @@ public class SearchListAdapter extends RecyclerView.Adapter<SearchListAdapter.Vi
         try {
             JSONObject object = new JSONObject(items[position]);
 
-            holder.price.setText("$" + object.getString("salePrice"));
+            DecimalFormat formatter = new DecimalFormat("0.00");
+
+            holder.price.setText("$" + formatter.format(object.getDouble("salePrice")));
             holder.name.setText(object.getString("name"));
         } catch (JSONException exception) {}
     }
