@@ -1,3 +1,7 @@
+## Java I - Intro to Java
+
+These are assignments and sandboxes for learning and getting familar with Java, several of which include using graphics and interacting with APIs such as Google's Nest API and the Wunderground weather API.
+
 # Java II - Android Development
 
 These are the projects and assignments for my Java II class of my senior year in high school. Java II is where I first learned Android development.
