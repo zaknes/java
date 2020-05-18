@@ -1,4 +1,4 @@
-## Java I - Intro to Java
+# Java I - Intro to Java
 
 These are assignments and sandboxes for learning and getting familar with Java, several of which include using graphics and interacting with APIs such as Google's Nest API and the Wunderground weather API.
 
