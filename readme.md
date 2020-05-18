@@ -1,8 +1,8 @@
-# Java I - Intro to Java
+## Java I - Intro to Java
 
 These are assignments and sandboxes for learning and getting familar with Java, several of which include using graphics and interacting with APIs such as Google's Nest API and the Wunderground weather API.
 
-# Java II - Android Development
+## Java II - Android Development
 
 These are the projects and assignments for my Java II class of my senior year in high school. Java II is where I first learned Android development.
 
@@ -11,7 +11,7 @@ This repository includes assignments and projects and I have worked on during th
 Do not expect best practices, caching, or performance-enhanced code. Included in this repository is my total knowledge of Android development, since I began learning it. Perhaps one day I will get into best practices, but for now, this is a reminder of my beginnings.
 
 
-## Assignments
+### Assignments
 
 #### BMI Calculator
 
